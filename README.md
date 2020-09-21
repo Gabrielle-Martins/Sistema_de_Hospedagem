@@ -2,7 +2,7 @@
 
 |Nome do Campo|Tipo|Descrição|
 |-------------|----|---------|
-|nome ||Cadeia de caracteres|nome do cliente|
+|nome |Cadeia de caracteres|nome do cliente|
 |idade|int|idade do cliente|
 |entrada|cadeia de caracteres|dia da entrada do cliente|
 |saida|cadeia de caracters|dia da saida do cliente|
