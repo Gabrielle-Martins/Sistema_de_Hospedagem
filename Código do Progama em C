@@ -265,9 +265,9 @@ int main()
     {
         printf("\t\t\t  * dados cadastratos *");
         printf("\n\n • Nome:");
-        puts(CadastroDoResp.nome);
+        puts(Cadastro.nome);
 
-        printf("\n\n • CPF: %d",CadastroDoResp.cpf);
+        printf("\n\n • CPF: %d",Cadastro.cpf);
         printf("\n\n • Data de entrada: %d/%d/%d", dia1, mes1, ano1);
         printf("\n\n • Data de saída: %d/%d/%d", dia2, mes2, ano2);
         printf("\n\n • Quartos reservados:");
@@ -307,11 +307,11 @@ int main()
 
                     fflush(stdin);
                     printf(" \n\n -> Informe seu nome: ");
-                    gets(CadastroDoResp.nome);
+                    gets(Cadastro.nome);
                     fflush(stdin);
 
                     printf("\n\n -> Informe seu CPF: ");
-                    scanf("%d",&CadastroDoResp.cpf);
+                    scanf("%d",&Cadastro.cpf);
                     break;
 
             case 2: printf("\n\t\t\t    Sistema de Hospedagem\n");
@@ -412,9 +412,9 @@ int main()
 
         printf("\t\t\t\t* dados cadastratos *");
         printf("\n\n • Nome:");
-        puts(CadastroDoResp.nome);
+        puts(Cadastro.nome);
 
-        printf("\n\n • CPF: %d",CadastroDoResp.cpf);
+        printf("\n\n • CPF: %d",Cadastro.cpf);
         printf("\n\n • Data de entrada: %d/%d/%d", dia1, mes1, ano1);
         printf("\n\n • Data de saída: %d/%d/%d", dia2, mes2, ano2);
         printf("\n\n • Quartos reservados:");
