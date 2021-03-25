@@ -3,19 +3,111 @@
 #include <string.h>
 #include <locale.h>
 
+typedef struct Dados{
+    char nome[80];
+    int idade;
+    int cpf;
+}Sistema;
+
+int TotalDias (int d1, int d2,int m1, int m2, int a1, int a2, int ds[])
+{
+    int x, i, c, b, dtotais;
+
+    x=m2-m1;
+     if((m1==m2)&&(a1==a2))
+    {
+        dtotais=d2-d1;
+    }
+
+     else if (x==1)
+    {
+        dtotais=((ds[m1]-d1)+d2);
+    }
+
+     else if((a1==a2)&& (x>=2))
+    {
+        dtotais=((ds[m1]-d1)+d2);
+
+        for(i=(m1+1);i<m2;i++)
+        {
+           dtotais=(dtotais+ds[i]);
+        }
+    }
+
+    else
+    {
+        dtotais=((ds[m1]-d1)+d2);
+
+       for(i=12;i>m1;i--)
+       {
+           dtotais=(dtotais+ds[i]);
+       }
+
+        c=a2-a1;
+
+        if(c==1)
+        {
+            for(i=0;i<m2;i++)
+          {
+            dtotais=dtotais+ds[i];
+          }
+        }
+
+        else
+        {
+            c=c-1;
+
+            for(i=0;i<c;i++)
+            {
+                for(b=0;b<13;b++)
+               {
+                  dtotais=dtotais+ds[b];
+               }
+            }
+
+           for(i=0;i<m2;i++)
+           {
+               dtotais=dtotais+ds[i];
+           }
+        }
+    }
+    return dtotais;}
+
+
+    float Pagamento (int diast, int quartos, char pets, char servicoq)
+    {
+        float pagmt;
+
+         pagmt=diast*50;
+
+    pagmt=pagmt+(quartos*100);
+
+      if(pets=='s')
+    {
+        pagmt=pagmt+50;
+    }
+
+     if(servicoq=='s')
+    {
+        pagmt=pagmt+(diast*10);
+    }
+    return pagmt;}
+
+
 
 int main()
 {
 
     setlocale (LC_ALL, "portuguese");
 
-    char nome[50], nomeresp[50], animais, servico;
-    int idade, cpf, cpfresp, quarto[3][4], quantq, integ, numq[12];
+    char animais, servico;
+    int quarto[3][4], quantq, integ, numq[12];
     int dias[13]={{0},{31},{28},{31},{30},{31},{30},{31},{31},{30},{31},{30},{31}};
     int dia1, dia2, mes1, mes2, ano1, ano2, diastotais;
     int i, d, b, x, c, q=1, a=1000, menu;
     float pagamento;
 
+    Sistema Cadastro,CadastroDoResp;
 
     system("color 0B");
 
@@ -29,25 +121,25 @@ int main()
 
     fflush(stdin);
     printf("-> Informe seu nome: ");
-    gets(nome);
+    gets(Cadastro.nome);
     fflush(stdin);
 
     printf("\n\n-> Informe seu CPF: ");
-    scanf("%d",&cpf);
+    scanf("%d",&Cadastro.cpf);
 
     printf("\n\n-> Informe sua idade: ");
-    scanf("%d",&idade);
+    scanf("%d",&Cadastro.idade);
 
-    if (idade<18)
+    if (Cadastro.idade<18)
     {
             printf("\n\n * para continuar a operação, preencha os dados abaixo com as informações do seu responsável legal *\n\t\t\t\t (informe 0 para sair)\n\n  ");
 
             fflush(stdin);
             printf("-> Informe o nome do seu reponsável: ");
-            gets(nomeresp);
+            gets(CadastroDoResp.nome);
             fflush(stdin);
 
-            if (nomeresp=='0')
+            if (CadastroDoResp.idade=='0')
             {
                 printf("\t\t\t\t HOTEL CEFET\n\n");
                 printf("----------------------------------------------------------------------------\n\n");
@@ -55,9 +147,9 @@ int main()
             }
 
             printf("\n\n-> Informe o CPF do seu responsável: ");
-            scanf("%d",&cpfresp);
+            scanf("%d",&CadastroDoResp.cpf);
 
-              if (cpfresp==0)
+              if (CadastroDoResp.cpf==0)
             {
                 printf("\t\t\t\t HOTEL CEFET\n\n");
                 printf("----------------------------------------------------------------------------\n\n");
@@ -91,66 +183,8 @@ int main()
     printf("\n -> Ano:");
     scanf("%d", &ano2);
 
-    x=mes2-mes1;
-     if((mes1==mes2)&&(ano1==ano2))
-    {
-        diastotais=dia2-dia1;
-    }
-
-     else if (x==1)
-    {
-        diastotais=((dias[mes1]-dia1)+dia2);
-    }
-
-     else if((ano1==ano2)&& (x>=2))
-    {
-        diastotais=((dias[mes1]-dia1)+dia2);
-
-        for(i=(mes1+1);i<mes2;i++)
-        {
-           diastotais=(diastotais+dias[i]);
-        }
-    }
-
-    else
-    {
-        diastotais=((dias[mes1]-dia1)+dia2);
-
-       for(i=12;i>mes1;i--)
-       {
-           diastotais=(diastotais+dias[i]);
-       }
-
-        c=ano2-ano1;
-
-        if(c==1)
-        {
-            for(i=0;i<mes2;i++)
-          {
-            diastotais=diastotais+dias[i];
-          }
-        }
-
-        else
-        {
-            c=c-1;
-
-            for(i=0;i<c;i++)
-            {
-                for(b=0;b<13;b++)
-               {
-                  diastotais=diastotais+dias[b];
-               }
-            }
-
-           for(i=0;i<mes2;i++)
-           {
-               diastotais=diastotais+dias[i];
-           }
-        }
-    }
-
-    pagamento=diastotais*50;
+   //chamada da função para calcular o total de dias
+    diastotais=TotalDias(dia1,dia2,mes1,mes2,ano1,ano2,dias);
 
 
     printf("\n\n\n");
@@ -209,20 +243,14 @@ int main()
     scanf("%c", &animais);
     fflush(stdin);
 
-     if(animais=='s')
-    {
-        pagamento=pagamento+50;
-    }
-
     fflush(stdin);
     printf("\n\n -> Você deseja o serviço de quarto? (s/n) * há um acréscimo de R$10,00 por dia *\n -> ");
     scanf("%c", &servico);
     fflush(stdin);
 
-     if(servico=='s')
-    {
-        pagamento=pagamento+(diastotais*10);
-    }
+   //chamada da função para cálculo do pagamento
+    pagamento=Pagamento(diastotais,quantq,animais,servico);
+
 
     printf("\n\n\n");
     system("pause");
@@ -233,13 +261,13 @@ int main()
     printf("\t\t\t\t HOTEL CEFET\n\n");
     printf("----------------------------------------------------------------------------\n\n");
 
-    if (idade>=18)
+    if (Cadastro.idade>=18)
     {
         printf("\t\t\t  * dados cadastratos *");
         printf("\n\n • Nome:");
-        puts(nome);
+        puts(CadastroDoResp.nome);
 
-        printf("\n\n • CPF: %d", cpf);
+        printf("\n\n • CPF: %d",CadastroDoResp.cpf);
         printf("\n\n • Data de entrada: %d/%d/%d", dia1, mes1, ano1);
         printf("\n\n • Data de saída: %d/%d/%d", dia2, mes2, ano2);
         printf("\n\n • Quartos reservados:");
@@ -266,9 +294,9 @@ int main()
         system("cls");
 
 
+
         do
         {
-
             switch (menu)
             {
 
@@ -279,11 +307,11 @@ int main()
 
                     fflush(stdin);
                     printf(" \n\n -> Informe seu nome: ");
-                    gets(nome);
+                    gets(CadastroDoResp.nome);
                     fflush(stdin);
 
                     printf("\n\n -> Informe seu CPF: ");
-                    scanf("%d",&cpf);
+                    scanf("%d",&CadastroDoResp.cpf);
                     break;
 
             case 2: printf("\n\t\t\t    Sistema de Hospedagem\n");
@@ -366,82 +394,11 @@ int main()
             case 0:    exit (0);
                        break;
 
-
-
-        }
-
-    x=mes2-mes1;
-     if((mes1==mes2)&&(ano1==ano2))
-    {
-        diastotais=dia2-dia1;
-    }
-
-     else if (x==1)
-    {
-        diastotais=((dias[mes1]-dia1)+dia2);
-    }
-
-     else if((ano1==ano2)&& (x>=2))
-    {
-        diastotais=((dias[mes1]-dia1)+dia2);
-
-        for(i=(mes1+1);i<mes2;i++)
-        {
-           diastotais=(diastotais+dias[i]);
-        }
-    }
-
-    else
-    {
-        diastotais=((dias[mes1]-dia1)+dia2);
-
-       for(i=12;i>mes1;i--)
-       {
-           diastotais=(diastotais+dias[i]);
-       }
-
-        c=ano2-ano1;
-
-        if(c==1)
-        {
-            for(i=0;i<mes2;i++)
-          {
-            diastotais=diastotais+dias[i];
-          }
-        }
-
-        else
-        {
-            c=c-1;
-
-            for(i=0;i<c;i++)
-            {
-                for(b=0;b<13;b++)
-               {
-                  diastotais=diastotais+dias[b];
-               }
             }
-
-           for(i=0;i<mes2;i++)
-           {
-               diastotais=diastotais+dias[i];
-           }
-        }
-    }
-
-         pagamento= diastotais*50;
-
-         pagamento=pagamento+(quantq*100);
-
-    if(animais=='s')
-    {
-        pagamento=pagamento+50;
-    }
-
-     if(servico=='s')
-    {
-        pagamento=pagamento+(diastotais*10);
-    }
+        //função cálculo dias
+         diastotais=TotalDias(dia1,dia2,mes1,mes2,ano1,ano2,dias);
+        //função cálculo pagamento
+         pagamento=Pagamento(diastotais,quantq,animais,servico);
 
     printf("\n\n\n");
     system("pause");
@@ -455,9 +412,9 @@ int main()
 
         printf("\t\t\t\t* dados cadastratos *");
         printf("\n\n • Nome:");
-        puts(nome);
+        puts(CadastroDoResp.nome);
 
-        printf("\n\n • CPF: %d", cpf);
+        printf("\n\n • CPF: %d",CadastroDoResp.cpf);
         printf("\n\n • Data de entrada: %d/%d/%d", dia1, mes1, ano1);
         printf("\n\n • Data de saída: %d/%d/%d", dia2, mes2, ano2);
         printf("\n\n • Quartos reservados:");
@@ -479,7 +436,7 @@ int main()
         printf("\n\n Deseja mudar alguma informação? * insira o número referente *\n -> ");
         scanf("%d", &menu);
 
-        }while(menu!=0);
+        }while (menu!=0);
 
     }
 
@@ -490,14 +447,14 @@ int main()
     {
         printf("\t\t\t\t* dados cadastratos *");
         printf("\n\n • Nome: ");
-        puts(nome);
+        puts(Cadastro.nome);
 
-        printf("\n • CPF: %d", cpf);
+        printf("\n • CPF: %d",Cadastro.cpf);
 
         printf("\n\n • Nome do responsável legal: ");
-        puts(nomeresp);
+        puts(CadastroDoResp.nome);
 
-        printf("\n • CPF do responsável legal: %d", cpfresp);
+        printf("\n • CPF do responsável legal: %d",CadastroDoResp.cpf);
 
         printf("\n\n • Data de entrada: %d/%d/%d", dia1, mes1, ano1);
         printf("\n • Data de saída: %d/%d/%d", dia2, mes2, ano2);
@@ -527,7 +484,6 @@ int main()
 
         do
         {
-
             switch (menu)
             {
 
@@ -538,11 +494,11 @@ int main()
 
                     fflush(stdin);
                     printf("\n\n -> Informe seu nome: ");
-                    gets(nome);
+                    gets(Cadastro.nome);
                     fflush(stdin);
 
                     printf("\n\n -> Informe seu CPF: ");
-                    scanf("%d",&cpf);
+                    scanf("%d",&Cadastro.cpf);
                     break;
 
             case 2: printf("\n\t\t\t    Sistema de Hospedagem\n");
@@ -625,83 +581,13 @@ int main()
             case 0:    exit (0);
                        break;
 
-
-
-        }
-
-       x=mes2-mes1;
-     if((mes1==mes2)&&(ano1==ano2))
-    {
-        diastotais=dia2-dia1;
-    }
-
-     else if (x==1)
-    {
-        diastotais=((dias[mes1]-dia1)+dia2);
-    }
-
-     else if((ano1==ano2)&& (x>=2))
-    {
-        diastotais=((dias[mes1]-dia1)+dia2);
-
-        for(i=(mes1+1);i<mes2;i++)
-        {
-           diastotais=(diastotais+dias[i]);
-        }
-    }
-
-    else
-    {
-        diastotais=((dias[mes1]-dia1)+dia2);
-
-       for(i=12;i>mes1;i--)
-       {
-           diastotais=(diastotais+dias[i]);
-       }
-
-        c=ano2-ano1;
-
-        if(c==1)
-        {
-            for(i=0;i<mes2;i++)
-          {
-            diastotais=diastotais+dias[i];
-          }
-        }
-
-        else
-        {
-            c=c-1;
-
-            for(i=0;i<c;i++)
-            {
-                for(b=0;b<13;b++)
-               {
-                  diastotais=diastotais+dias[b];
-               }
-            }
-
-           for(i=0;i<mes2;i++)
-           {
-               diastotais=diastotais+dias[i];
            }
-        }
-    }
 
-         pagamento= diastotais*50;
+           // chamada novamente das funções (if responsável da reserva menor de idade)
 
-         pagamento=pagamento+(quantq*100);
+         diastotais=TotalDias(dia1,dia2,mes1,mes2,ano1,ano2,dias);
 
-
-    if(animais=='s')
-    {
-        pagamento=pagamento+50;
-    }
-
-     if(servico=='s')
-    {
-        pagamento=pagamento+(diastotais*10);
-    }
+         pagamento=Pagamento(diastotais,quantq,animais,servico);
 
     printf("\n\n\n");
     system("pause");
@@ -715,12 +601,12 @@ int main()
 
         printf("\t\t\t\t* dados cadastratos *");
         printf("\n\n • Nome:");
-        puts(nome);
-        printf("\n\n • CPF: %d", cpf);
+        puts(Cadastro.nome);
+        printf("\n\n • CPF: %d",Cadastro.cpf);
 
         printf("\n\n • Nome do responsável legal:");
-        puts(nomeresp);
-        printf("\n\n • CPF do responsável legal: %d", cpfresp);
+        puts(CadastroDoResp.nome);
+        printf("\n\n • CPF do responsável legal: %d", CadastroDoResp.cpf);
 
         printf("\n\n • Data de entrada: %d/%d/%d", dia1, mes1, ano1);
         printf("\n\n • Data de saída: %d/%d/%d", dia2, mes2, ano2);
